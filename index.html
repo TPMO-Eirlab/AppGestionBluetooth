@@ -1,0 +1,45 @@
+<!DOCTYPE html5>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Demo APP</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+
+        <!-- ================================================ -->
+        <!-- Ajout du CSS -->
+        
+        <!-- Ajout du CSS externe -->
+        <!-- Pas de CSS externe -->
+        
+        <!-- Ajout du CSS interne -->
+        <link rel="stylesheet" href="static/CSS/index.css">
+
+        <!-- ================================================ -->
+        <!-- Ajout du JS -->
+
+        <!-- Ajout du JS externe -->
+        <script src="static/JS/vendor/riot+compiler.min.js"></script>
+        <script src="static/JS/vendor/route.min.js"></script>
+
+        <!-- Ajout du JS interne -->
+        <script src="static/JS/Router.js"></script>
+        <script src="static/JS/ErrorHandler.js"></script>
+        <script src="static/JS/App.js"></script>
+
+        <!-- ================================================ -->
+        <!-- Ajout des tags -->
+        <script src="tags/Header.tag.html" type="riot/tag"></script>
+        <script src="tags/Index.tag.html" type="riot/tag"></script>
+
+        <!-- Lancement du système interne de l'application --> 
+        <script>
+            window.addEventListener("load", function(){
+                Router.start();
+            });
+        </script>
+    </head>
+    <body>
+        <noscript>Cette application ne peut fonctionner sans Javascript. Veuillez l'activer, mettre à jour votre navigateur ou essayer à nouveau depuis un autre navigateur.</noscript>
+        <div id="app"></div>
+    </body>
+</html>
