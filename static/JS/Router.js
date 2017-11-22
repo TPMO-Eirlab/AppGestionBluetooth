@@ -22,10 +22,16 @@ let Router =
         App.changePage("app-index", null);
     },
 
+    routeConnection : function()
+    {
+        App.changePage("app-connection",null);
+    },
+
     ///////////////////////////////////////////////////////////////
 
     setRoutes : function()
     {
         route("", Router.routeIndex);
+        route("connection", Router.routeConnection);
     }
 }
