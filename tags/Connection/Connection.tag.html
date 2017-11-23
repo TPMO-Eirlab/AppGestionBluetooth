@@ -1,0 +1,57 @@
+<app-connection>
+    <app-header></app-header>
+    
+    <app-connectionuserlist callback="{ setUsername }"></app-connectionuserlist>
+    
+    <form>
+        <input type="text" placeholder="Identifiant" name="username" ref="username">
+        <input type="password" placeholder="Code Pin" name="password" ref="password">
+        <input type="button" value="Envoyer" onclick="{ login }">
+    </form>
+
+    <script>
+        var tag = this ;
+
+        tag.setUsername = function(name)
+        {
+            tag.refs.username.value = name;
+        };
+
+        tag.login = function()
+        {
+            var username = tag.refs.username.value;
+            var password = tag.refs.password.value;
+
+            //TODO: ajouter une vrai vérification
+            alert("Vous êtes connecté !");
+
+            tag.addToUserList(username);
+        };
+
+        tag.addToUserList = function(name)
+        {
+            var data = localStorage.getItem("users");
+            if(data == null || data == "")
+            {
+                data = [];
+            }
+            else 
+            {
+                try
+                {
+                    data = JSON.parse(data);
+                }
+                catch(error)
+                {
+                    data = [];
+                }    
+            }
+            data.unshift(name);
+            if(data.length >= 11)
+                data.splice(10, data.length - 11);
+            data = JSON.stringify(data);
+            localStorage.setItem("users", data);
+        };
+
+    </script>
+</app-connection>

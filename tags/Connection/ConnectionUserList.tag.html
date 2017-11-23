@@ -1,0 +1,44 @@
+<app-connectionuserlist>
+    <ul>
+        <li each="{ user in users }" onclick="{ selectUser }" alt="{ user }">
+            { user }
+        </li>
+    </ul>        
+
+
+    <script>
+        var tag = this;
+
+        tag.users = [];
+        tag.callback = null;
+
+        tag.on("before-mount", function()
+        {
+            tag.callback = tag.opts.callback;
+            tag.retrieveUsers();
+        });
+
+        tag.retrieveUsers = function()
+        {
+            var data = localStorage.getItem("users");
+            if(data == null || data == "")
+                return;
+            try
+            {
+                tag.users = JSON.parse(data);
+            }
+            catch(error)
+            {
+                tag.users = [];
+            }    
+        };
+
+        tag.selectUser = function(event)
+        {
+            var name = event.target.getAttribute("alt");
+            if(tag.callback != null)
+                tag.callback(name); 
+        };
+
+    </script>
+</app-connectionuserlist>
