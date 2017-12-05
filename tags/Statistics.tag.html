@@ -1,0 +1,53 @@
+<app-statistics>    
+    <app-header></app-header>
+
+    <div class="content">
+        <h1>Statistiques</h1>
+
+        <form class="search">
+            <div>
+                <label>Dispositif(s) à consulter</label>
+                <select name="device" ref="device">
+                    <option value="all">Tout les appareils</option>
+                    <option each="{ device in devices }" value="{ device.id }">{ device.name }</option>
+                </select>
+            </div>            
+
+            <div>
+                <label>Fréquence</label>
+                <select name="frequency" ref="frequency">
+                    <option value="day">Par jour</option>
+                    <option value="week">Par semaine</option>
+                    <option value="month">Par mois</option>
+                </select>
+            </div>
+
+            <input type="button" value="Consulter" onclick="{ search }">
+        </form>
+
+        <div class="results">
+            <!-- ajouter les données-->
+        </div>
+    </div>
+
+    <script>
+        var tag = this;
+
+        tag.devices = null;
+
+        tag.on("before-mount", function(){
+            tag.devices = tag.opts.devices;
+            if(tag.devices == null)
+                throw new Error("Devices cant be null.");
+        }); 
+
+        tag.search = function()
+        {
+            let device = tag.refs.devices.value;
+            let frequency = tag.refs.frequency.value;
+
+            //TODO: ajouter le code permettant de rechercher et d'afficher les résultats 
+        };
+
+    </script>
+</app-statistics>

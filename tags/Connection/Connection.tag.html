@@ -1,14 +1,14 @@
 <app-connection>
     <app-header></app-header>
-    
-    <app-connectionuserlist callback="{ setUsername }"></app-connectionuserlist>
-    
-    <form>
-        <input type="text" placeholder="Identifiant" name="username" ref="username">
-        <input type="password" placeholder="Code Pin" name="password" ref="password">
-        <input type="button" value="Envoyer" onclick="{ login }">
-    </form>
-
+    <div class="content">
+        <app-connectionuserlist callback="{ setUsername }"></app-connectionuserlist>
+        
+        <form>
+            <input type="text" placeholder="Identifiant" name="username" ref="username">
+            <input type="password" placeholder="Code Pin" name="password" ref="password">
+            <input type="button" value="Envoyer" onclick="{ login }">
+        </form>
+    </div>
     <script>
         var tag = this ;
 
