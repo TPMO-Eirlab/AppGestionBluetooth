@@ -73,5 +73,7 @@ input:checked + .slider:before {
 
 imprimante-carre{
     border-style: outset;
-
+    border-radius: 8px;
+    border: 2px solid DarkGreen;
+    background-color: ForestGreen;
 }
