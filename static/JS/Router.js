@@ -19,7 +19,7 @@ let Router =
     // Définition des fonctions de route
     routeIndex : function()
     {
-        App.changePage("app-index", null);
+        App.changePage("app-printers", null);
     },
 
     routeConnection : function()

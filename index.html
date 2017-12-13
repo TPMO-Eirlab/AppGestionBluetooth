@@ -1,4 +1,4 @@
-<!DOCTYPE html5>
+﻿<!DOCTYPE html5>
 <html>
     <head>
         <meta charset="utf-8">
@@ -21,9 +21,11 @@
         <!-- Ajout du JS externe -->
         <script src="static/JS/vendor/riot+compiler.min.js"></script>
         <script src="static/JS/vendor/route.min.js"></script>
+        <script src="static/JS/vendor/Smartplug.js"></script>
 
         <!-- Ajout du JS interne -->
         <script src="static/JS/Router.js"></script>
+        <script src="static/JS/Device.js"></script>
         <script src="static/JS/ErrorHandler.js"></script>
         <script src="static/JS/App.js"></script>
 
@@ -31,15 +33,15 @@
         <!-- Ajout des tags -->
         <script src="tags/Header.tag.html" type="riot/tag"></script>
         <script src="tags/Index.tag.html" type="riot/tag"></script>
-        <script src="tags/Printer.tag.html" type="riot/tag"></script>
+        <script src="tags/Printers.tag.html" type="riot/tag"></script>
         <script src="tags/Connexion/Connexion.tag.html" type="riot/tag"></script>
         <script src="tags/Connexion/ConnexionUserList.tag.html" type="riot/tag"></script>
 
         <!-- Lancement du système interne de l'application --> 
         <script>
-            window.addEventListener("load", function(){
+            document.addEventListener('deviceready', function () {
                 Router.start();
-            });
+            }, false);
         </script>
     </head>
     <body>
