@@ -1,0 +1,24 @@
+﻿<app-printers>
+    <div class="content">
+        <div each="{ printer in printers }" class="imprimante">
+            <div class="imprimante-carre">
+                <div class="imprimante-titre">
+                    <img src="image/ultimaker-ii.jpeg" alt="ultimaker" /> {printer.name}
+                </div>
+                <div class="imprimante-{printer.state}">
+                    {printer.state}
+                </div>
+            </div>
+        </div>       
+
+    </div>
+    <script>
+        var tag = this;
+
+        tag.printers = null;
+
+        tag.on("before-mount", function(){
+            tag.printers = tag.opts.printers;
+        });
+    </script>
+</app-printers>

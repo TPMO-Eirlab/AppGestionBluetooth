@@ -42,7 +42,7 @@ let Router =
     setRoutes : function()
     {
         route("", Router.routeIndex);
-        route("connection", Router.routeConnection);
+        route("connexion", Router.routeConnection);
         route("stats", Router.routeStats);
         route("faq", Router.routeFaq);
     }
