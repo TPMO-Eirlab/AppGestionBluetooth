@@ -1,5 +1,4 @@
-let App =
-{
+var App = {
     // L'adresse de base dans laquelle on a besoin de taper éventuellement
     Address : null,
 
@@ -11,8 +10,10 @@ let App =
      * address : concaténé après App.Address, addresse à interroger
      * data : données de la requête
      */
-    request : function(address, data, method = "POST", redirect = true)
+    request : function(address, data, method, redirect)
     {
+        method = method == null ? "POST" : method;
+        redirect = redirect == null ? true : redirect;
         return new Promise(function(resolve, reject)
         {
             var href=window.location.href;

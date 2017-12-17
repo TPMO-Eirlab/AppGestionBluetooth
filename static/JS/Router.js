@@ -2,7 +2,7 @@
  * Created by clovis on 11/08/17.
  */
 
-let Router = 
+var Router = 
 {
     redirect : function (rt)
     {

@@ -54,23 +54,25 @@ SmartPlug.prototype.state = function(){
 };
 
 SmartPlug.prototype.switchOn = function(){
-    console.log("switch on");
-    //console.log(this);
     if (this.connected){
 	var plug=this;
+	alert("Switching on "+plug.deviceId);
 	ble.write(this.deviceId,SmartPlugData.service,SmartPlugData.order,SmartPlugData.onOrder.buffer,function(){
 	    plug.stateValue=1;
-	    plug.lastCutOffRecord = 0;
+		plug.lastCutOffRecord = 0;
+		plug.updateHandler(plug.deviceId);
 	},this.onError.bind(this));
     }
 };
 
 SmartPlug.prototype.switchOff = function () {
-    console.log("switch off");
-    //console.log(this);
     if (this.connected){
-	var plug=this;
-	ble.write(this.deviceId,SmartPlugData.service,SmartPlugData.order,SmartPlugData.offOrder.buffer,function(){plug.stateValue=0;},this.onError.bind(this));
+		var plug=this;
+		ble.write(this.deviceId,SmartPlugData.service,SmartPlugData.order,SmartPlugData.offOrder.buffer,function(){
+			plug.stateValue=0;
+			//plug.lastCutOffRecord = 0;
+			plug.updateHandler(plug.deviceId);
+		},this.onError.bind(this));
     }
 };
 
@@ -80,65 +82,56 @@ SmartPlug.prototype.askStatus = function(){
     //console.log("ask for status");
     //console.log(this);
     if (this.connected){
-	var plug=this;
-	ble.write(this.deviceId,SmartPlugData.service,SmartPlugData.order,SmartPlugData.statusOrder.buffer,function(){},this.onError.bind(this));
+		var plug=this;
+		ble.write(this.deviceId,SmartPlugData.service,SmartPlugData.order,SmartPlugData.statusOrder.buffer,function(){},this.onError.bind(this));
     }
 };
 
 SmartPlug.prototype.updateStatus = function(data) {
-    //console.log("sartplug update status (notif)");
-    //    console.log(this);
-    //console.log(data);
-    //console.log("notif data are:",data);
     var message="";
     var a = new Uint8Array(data);
-    //console.log("data as an array are:");
-    //console.log(a);
     if ((a[0]==0x0f) && (a[1]==0x04) && (a[2]==0x03)){
-	//console.log("notification of a change");
-	return ;
+		return ;
     }
     if ((a[0]==0x0f) && (a[1]==0x0f) && (a[2]==0x04)){
-	// read state:
-	var state=a[4];
-	if ((this.forceState) && (this.stateValue!=state)){
-	    if (this.stateValue==1) this.switchOn();
-	    else this.switchOff();
+		// Lecture et mise à jour du status
+		var state=a[4];
+		if ((this.forceState) && (this.stateValue!=state)){ // Si on force le status à correspondre à celui de l'app
+			if (this.stateValue==1) this.switchOn();
+			else this.switchOff();
+		}
+		else{ // Sinon on let à jour les données locales
+			if (a[4]==0) 
+				this.stateValue=0;
+			else 
+				this.stateValue=1;
+		}
+
+		// Lecture de l'alimentation 
+		var power=0;
+		power=a[6]<<24 | a[7] << 16 | a[8]<<8 | a[9];
+		power/=1000.0;
+		// Si la prise est allumée et que l'extinction auto est activée, et que l'alim est inférieure au seuil
+		if ((state==1) && (this.autoCutOff!=0) && (power<this.autoCutOff) ){
+			if (this.lastCutOffRecord==0){
+				this.lastCutOffRecord=Date.now()/1000.0;
+			} else if (((Date.now()/1000.0) - this.lastCutOffRecord)>=this.autoCutOffDelay){
+				this.switchOff();
+			}
+		}
+		this.powerValue=power;
 	}
-	else{
-	    if (a[4]==0) this.stateValue=0;
-	    else this.stateValue=1;
-	}
-	// read power:
-	var power=0;
-	//console.log(a[6]);
-	//console.log(power);
-	power=a[6]<<24 | a[7] << 16 | a[8]<<8 | a[9];
-	//console.log(power);
-	power/=1000.0;
-	if ((state==1) && (this.autoCutOff!=0) && (power<this.autoCutOff) ){
-	    if (this.lastCutOffRecord==0){
-		this.lastCutOffRecord=Date.now()/1000.0;
-	    } else if (((Date.now()/1000.0) - this.lastCutOffRecord)>=this.autoCutOffDelay){
-		this.switchOff();
-	    }
-	}
-	this.powerValue=power;
-	if (this.updateHandler!=null){
-	    this.updateHandler(this);
-	}
-    }
     if (this.connected)
-	setTimeout(this.askStatus.bind(this),1000);
+		setTimeout(this.askStatus.bind(this),1000);
 };
 
-SmartPlug.prototype.connect = function(){
-    console.log("try to connect....");
+SmartPlug.prototype.connect = function(successHandler){
     if (this.connected) return;
-    var plug=this;
+	var plug=this;
     ble.connect(this.deviceId, function(){
-	console.log("successfully connected");
+	alert("successfully connected to "+plug.deviceId);
 	plug.connected=true;
+	successHandler(plug.deviceId);
 	// set the notification handler
 	ble.startNotification(plug.deviceId, SmartPlugData.service, SmartPlugData.notif, function(d){plug.updateStatus(d);},function(e){plug.onError(e);});
 	// set the timer for 5 sec. notification

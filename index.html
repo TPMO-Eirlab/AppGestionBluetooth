@@ -17,6 +17,7 @@
 
         <!-- ================================================ -->
         <!-- Ajout du JS -->
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script> 
 
         <!-- Ajout du JS externe -->
         <script src="static/JS/vendor/riot+compiler.min.js"></script>
@@ -39,9 +40,14 @@
 
         <!-- Lancement du système interne de l'application --> 
         <script>
-            document.addEventListener('deviceready', function () {
+            function start()
+            {
                 Router.start();
-            }, false);
+            };
+
+
+            document.addEventListener('deviceready', start, false);
+            //window.addEventListener('load', start, false);
         </script>
     </head>
     <body>

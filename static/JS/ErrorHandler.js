@@ -1,5 +1,5 @@
 
-let ErrorHandler =
+var ErrorHandler =
 {
     State : {
         INFO : "INFO", 
