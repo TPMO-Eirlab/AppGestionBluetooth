@@ -1,14 +1,22 @@
 ﻿<app-printers>
     <app-header></app-header>
     <div class="content">
-        <div each="{ printer in connectedDevices }" class="imprimante" onclick="{ switchOnDevice(printer.deviceId) }" id="{ printer.deviceId }">
-            <div class="imprimante-carre">
-                <div class="imprimante-titre">
-                    <img src="image/ultimaker-ii.jpeg" alt="ultimaker" /> {printer.name}
-                </div>
-                <div class="imprimante-{printer.stateValue}">
-                    {printer.stateValue}
-                </div>
+        <div each="{ printer in connectedDevices }" class="{ printer : true, available : printer.stateValue == 0, unavailable : printer.stateValue == 1, hs : printer.stateValue == -1 }" onclick="{ switchOnDevice(printer.deviceId) }" id="{ printer.deviceId }">
+            <div class="core">
+                {printer.name}
+            </div>
+            <div class="footer">
+                <virtual if="{ printer.stateValue == -1 }">
+                    Hors-Service
+                </virtual>
+
+                <virtual if="{ printer.stateValue == 0 }">
+                    Disponible
+                </virtual>
+
+                <virtual if="{ printer.stateValue == 1 }">
+                    Utilisé par
+                </virtual>
             </div>
         </div>       
 
@@ -19,10 +27,39 @@
         tag.connectedDevices = null;
         tag.Devices = null;
 
+        tag.demo = true;
+
 
         tag.on("before-mount", function(){
-            ble.scan([],5,function(e){},function(){}); // scan for device during 5 seconds...
-            tag.connectedDevices = {};
+            if(tag.demo == false)
+            {
+                ble.scan([],5,function(e){},function(){}); // scan for device during 5 seconds...
+                tag.connectedDevices = {};
+            }
+            else 
+            {
+                tag.connectedDevices = {
+                    
+                    "E0:E5:CF:1E:68:87" : 
+                    {
+                    "deviceId" : "E0:E5:CF:1E:68:87",
+                    "name" : "Imprimante démo 1",
+                    "stateValue" : 0,
+                    },
+                    "E0:E5:CF:1E:68:88" : 
+                    {
+                    "deviceId" : "E0:E5:CF:1E:68:87",
+                    "name" : "Imprimante démo 2",
+                    "stateValue" : 1,
+                    },
+                    "E0:E5:CF:1E:68:6" : 
+                    {
+                    "deviceId" : "E0:E5:CF:1E:68:87",
+                    "name" : "Imprimante démo 2",
+                    "stateValue" : -1,
+                    }
+                };
+            }
             var self = tag;
             tag.Devices = {
                 "E0:E5:CF:1E:68:87" : new SmartPlug("E0:E5:CF:1E:68:87", "Imprimante 1", false, function(id){ self.updateDevice(id); }, 10, 5)

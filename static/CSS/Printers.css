@@ -1,0 +1,86 @@
+app-printers, div[data-is=app-printers] div.content
+{
+    text-align: center;        
+
+}
+
+app-printers, div[data-is=app-printers] div.printer
+{
+    display: inline-block;
+
+    width: 150px;
+    height: 100px;
+
+    text-align: center;
+
+    border-radius: 15px;
+
+    margin-right: 20px;
+
+    box-shadow: 0px 5px 5px 5px rgba(230, 232, 232, 0.2);
+    
+
+
+}
+
+app-printers, div[data-is=app-printers] div.printer div.core
+{
+    color: white;
+    padding: 30px;
+    padding-top: 15px;
+}
+
+app-printers, div[data-is=app-printers] div.printer.available
+{
+    background-color: rgb(112, 179,67);
+}
+
+app-printers, div[data-is=app-printers] div.printer.unavailable
+{
+    background-color: #F43334;
+}
+
+app-printers, div[data-is=app-printers] div.printer.hs
+{
+    border: 1px solid rgb(246,247,247);
+}
+
+app-printers, div[data-is=app-printers] div.printer.hs div.core
+{
+    color: inherit;
+}
+
+
+app-printers, div[data-is=app-printers] div.printer div.core 
+{
+    width: 100%;
+    height: 70px;
+
+}
+
+app-printers, div[data-is=app-printers] div.printer div.footer
+{
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+
+    min-height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    word-wrap: break-word;
+    
+}
+
+app-printers, div[data-is=app-printers] div.printer.available div.footer
+{
+    background-color: rgba(87,155,40);
+}
+
+app-printers, div[data-is=app-printers] div.printer.unavailable div.footer
+{
+    background-color: #A82324;
+}
+
+app-printers, div[data-is=app-printers] div.printer.hs div.footer
+{
+    border-top: 1px solid rgb(246,247,247);
+}

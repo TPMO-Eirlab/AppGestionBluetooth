@@ -1,0 +1,20 @@
+*
+{
+    box-sizing: border-box;
+}
+
+div.content {
+    display: block;
+
+    width: 90%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    background-color: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+}
