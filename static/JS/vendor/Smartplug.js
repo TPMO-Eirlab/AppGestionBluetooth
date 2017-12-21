@@ -27,7 +27,8 @@ function SmartPlug(deviceId,name,forceState,updateHandler,autoCutOff,autoCutOffD
     this.lastCutOffRecord=0;
     this.powerValue=-1; // default to -1 mean not connected
     this.stateValue=-1; // default to not connected
-    this.updateHandler= updateHandler;
+	this.updateHandler= updateHandler;
+	this.user = null;
 }
 
 SmartPlug.prototype.onError = function(e){
@@ -53,12 +54,13 @@ SmartPlug.prototype.state = function(){
     return this.stateValue;
 };
 
-SmartPlug.prototype.switchOn = function(){
+SmartPlug.prototype.switchOn = function(user){
     if (this.connected){
 	var plug=this;
 	alert("Switching on "+plug.deviceId);
 	ble.write(this.deviceId,SmartPlugData.service,SmartPlugData.order,SmartPlugData.onOrder.buffer,function(){
-	    plug.stateValue=1;
+		plug.stateValue=1;
+		plug.user = user;
 		plug.lastCutOffRecord = 0;
 		plug.updateHandler(plug.deviceId);
 	},this.onError.bind(this));
@@ -70,6 +72,7 @@ SmartPlug.prototype.switchOff = function () {
 		var plug=this;
 		ble.write(this.deviceId,SmartPlugData.service,SmartPlugData.order,SmartPlugData.offOrder.buffer,function(){
 			plug.stateValue=0;
+			plug.user = null;
 			//plug.lastCutOffRecord = 0;
 			plug.updateHandler(plug.deviceId);
 		},this.onError.bind(this));

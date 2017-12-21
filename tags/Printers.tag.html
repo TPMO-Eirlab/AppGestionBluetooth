@@ -1,7 +1,18 @@
 ﻿<app-printers>
     <app-header></app-header>
+
+    <div id="selector">
+        <span>Tout</span>
+        <label class="switch">
+                <input type="checkbox" onclick="{ switch }">
+                <span class="slider round"></span>
+        </label>
+        <span>Disponibles</span>
+
+    </div>
+
     <div class="content">
-        <div each="{ printer in connectedDevices }" class="{ printer : true, available : printer.stateValue == 0, unavailable : printer.stateValue == 1, hs : printer.stateValue == -1 }" onclick="{ switchOnDevice(printer.deviceId) }" id="{ printer.deviceId }">
+        <div each="{ printer in connectedDevices }" if="{ onlyAvailable == false || printer.stateValue == 0}" class="{ printer : true, available : printer.stateValue == 0, unavailable : printer.stateValue == 1, hs : printer.stateValue == -1 }" onclick="{ switchOnDevice(printer.deviceId) }" id="{ printer.deviceId }">
             <div class="core">
                 {printer.name}
             </div>
@@ -15,7 +26,7 @@
                 </virtual>
 
                 <virtual if="{ printer.stateValue == 1 }">
-                    Utilisé par
+                    Utilisé par { printer.user }
                 </virtual>
             </div>
         </div>       
@@ -27,11 +38,11 @@
         tag.connectedDevices = null;
         tag.Devices = null;
 
-        tag.demo = true;
+        tag.onlyAvailable = false;
 
 
         tag.on("before-mount", function(){
-            if(tag.demo == false)
+            if(DEBUG == false)
             {
                 ble.scan([],5,function(e){},function(){}); // scan for device during 5 seconds...
                 tag.connectedDevices = {};
@@ -51,6 +62,7 @@
                     "deviceId" : "E0:E5:CF:1E:68:87",
                     "name" : "Imprimante démo 2",
                     "stateValue" : 1,
+                    "user" : "Valentin"
                     },
                     "E0:E5:CF:1E:68:6" : 
                     {
@@ -68,6 +80,7 @@
 
             tag.initConnexion();
         });
+
 
         tag.initConnexion = function () {
             for (var device in tag.Devices)
@@ -89,9 +102,16 @@
             
         };
 
+        tag.switch = function()
+        {
+            tag.onlyAvailable = !tag.onlyAvailable;
+            tag.update();
+        };
+
         tag.switchOnDevice = function(id){
             return function(event){
-                tag.Devices[id].switchOn();
+                //TODO: gérer la connexion 
+                tag.Devices[id].switchOn("Test user");
             }
             
         };

@@ -58,11 +58,11 @@ h1 {
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: rgb(112, 179,67);;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px rgb(112, 179,67);;
 }
 
 input:checked + .slider:before {
@@ -78,11 +78,4 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
-}
-
-imprimante-carre{
-    border-style: outset;
-    border-radius: 8px;
-    border: 2px solid DarkGreen;
-    background-color: ForestGreen;
 }

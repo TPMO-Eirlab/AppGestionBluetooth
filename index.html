@@ -41,14 +41,17 @@
 
         <!-- Lancement du système interne de l'application --> 
         <script>
+            var DEBUG = true;
+
             function start()
             {
                 Router.start();
             };
 
-
-            //document.addEventListener('deviceready', start, false);
-            window.addEventListener('load', start, false);
+            if(DEBUG == false)
+                document.addEventListener('deviceready', start, false);
+            else 
+                window.addEventListener('load', start, false);
         </script>
     </head>
     <body>

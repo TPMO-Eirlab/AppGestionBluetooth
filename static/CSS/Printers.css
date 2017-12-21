@@ -4,12 +4,39 @@ app-printers, div[data-is=app-printers] div.content
 
 }
 
+app-printers, div[data-is=app-printers] div#selector
+{
+    height: 34px;
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+app-printers, div[data-is=app-printers] div#selector>span 
+{
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+    line-height: 34px;
+    margin-right: 10px;   
+}  
+
+app-printers, div[data-is=app-printers] div#selector>span:nth-of-type(2)
+{
+    margin-left: 10px;   
+}  
+
+
+
+
 app-printers, div[data-is=app-printers] div.printer
 {
     display: inline-block;
+    position: relative;
 
     width: 150px;
-    height: 100px;
+    height: 150px;
 
     text-align: center;
 
@@ -18,16 +45,13 @@ app-printers, div[data-is=app-printers] div.printer
     margin-right: 20px;
 
     box-shadow: 0px 5px 5px 5px rgba(230, 232, 232, 0.2);
-    
 
-
+    transition: all 0.2s ease;
 }
 
-app-printers, div[data-is=app-printers] div.printer div.core
+app-printers, div[data-is=app-printers] div.printer:hover 
 {
-    color: white;
-    padding: 30px;
-    padding-top: 15px;
+    transform: scale(1.1, 1.1);
 }
 
 app-printers, div[data-is=app-printers] div.printer.available
@@ -42,12 +66,8 @@ app-printers, div[data-is=app-printers] div.printer.unavailable
 
 app-printers, div[data-is=app-printers] div.printer.hs
 {
-    border: 1px solid rgb(246,247,247);
-}
-
-app-printers, div[data-is=app-printers] div.printer.hs div.core
-{
-    color: inherit;
+    /*border: 1px solid rgb(246,247,247);*/
+    background-color: rgba(206,207,207);
 }
 
 
@@ -56,10 +76,26 @@ app-printers, div[data-is=app-printers] div.printer div.core
     width: 100%;
     height: 70px;
 
+    color: white;
+    padding: 30px;
+    padding-top: 15px;
+
 }
+
+
+app-printers, div[data-is=app-printers] div.printer.hs div.core
+{
+    color: inherit;
+}
+
 
 app-printers, div[data-is=app-printers] div.printer div.footer
 {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 
@@ -67,6 +103,8 @@ app-printers, div[data-is=app-printers] div.printer div.footer
     padding-top: 5px;
     padding-bottom: 5px;
     word-wrap: break-word;
+
+    color: white;
     
 }
 
@@ -82,5 +120,5 @@ app-printers, div[data-is=app-printers] div.printer.unavailable div.footer
 
 app-printers, div[data-is=app-printers] div.printer.hs div.footer
 {
-    border-top: 1px solid rgb(246,247,247);
+    background-color: rgba(146,147,147);
 }
