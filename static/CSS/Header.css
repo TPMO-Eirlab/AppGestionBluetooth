@@ -46,7 +46,7 @@ app-header a[href="#/stats"]
     background-image: url("./../img/charts.svg");
 }
 
-app-header a[href="#/faq"]
+app-header a[href="http://eirlab.fr/tiki-index.php?page=Guide%2Bimpression%2B3D"]
 {
     background-image: url("./../img/faq.svg");
     background-size: auto 70%;
