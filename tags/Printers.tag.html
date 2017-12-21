@@ -12,6 +12,7 @@
     </div>
 
     <div class="content">
+        <h1>Appareils:</h1>
         <div each="{ printer in connectedDevices }" if="{ onlyAvailable == false || printer.stateValue == 0}" class="{ printer : true, available : printer.stateValue == 0, unavailable : printer.stateValue == 1, hs : printer.stateValue == -1 }" onclick="{ switchOnDevice(printer.deviceId) }" id="{ printer.deviceId }">
             <div class="core">
                 {printer.name}

@@ -10,3 +10,47 @@ app-header
     border-bottom: 1px solid white;
     box-shadow: 0px 0px 5px 5px rgba(230, 232, 232, 0.5);
 }
+
+@media screen and (max-width: 616px)
+{
+    app-header{
+        height: 200px;
+    }
+}
+
+app-header a
+{
+    display: inline-block;
+    height: 60px;
+    width: 150px;
+
+    margin-top: 20px;
+    margin-left: 20px;
+
+    font-size: 0;
+
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    
+    vertical-align: top;
+
+    border: 2px solid rgba(230, 232, 232, 1);
+
+    border-radius: 15px;
+    
+}
+
+app-header a[href="#/stats"]
+{
+    background-image: url("./../img/charts.svg");
+}
+
+app-header a[href="#/faq"]
+{
+    background-image: url("./../img/faq.svg");
+    background-size: auto 70%;
+    position: absolute;
+    right: 20px;
+    top: 0px;
+}

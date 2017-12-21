@@ -1,3 +1,5 @@
+
+
 app-printers, div[data-is=app-printers] div.content
 {
     text-align: center;        
@@ -11,6 +13,14 @@ app-printers, div[data-is=app-printers] div#selector
     top: 30px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+@media screen and (max-width: 616px)
+{
+    app-printers, div[data-is=app-printers] div#selector
+    {
+        top: 130px;
+    }
 }
 
 app-printers, div[data-is=app-printers] div#selector>span 
@@ -43,6 +53,7 @@ app-printers, div[data-is=app-printers] div.printer
     border-radius: 15px;
 
     margin-right: 20px;
+    margin-bottom: 20px;
 
     box-shadow: 0px 5px 5px 5px rgba(230, 232, 232, 0.2);
 
