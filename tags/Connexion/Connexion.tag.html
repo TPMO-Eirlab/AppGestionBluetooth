@@ -1,11 +1,11 @@
 <app-connection>
-    <app-header></app-header>
+    <app-header pagename="Allumer une imprimante"></app-header>
     <div class="content">
         <app-connectionuserlist callback="{ setUsername }"></app-connectionuserlist>
         
         <form>
             <input type="text" placeholder="Identifiant" name="username" ref="username"><br>
-            <input type="password" placeholder="Code Pin" name="password" ref="password"><br>
+            <input type="password" placeholder="Code Pin" name="password" ref="password" onkeyup="{ onPassword }"><br>
             <input type="button" value="Envoyer" onclick="{ login }">
         </form>
     </div>
@@ -17,6 +17,14 @@
         tag.on("before-mount", function(){
             tag.callback = tag.opts.callback;
         });
+
+        tag.onPassword = function()
+        {
+            if(tag.refs.password.value.length >= 4)
+            {
+                tag.login();
+            }
+        }
 
         tag.setUsername = function(name)
         {

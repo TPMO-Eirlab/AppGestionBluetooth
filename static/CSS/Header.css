@@ -2,6 +2,8 @@ app-header
 {
     display: block;
 
+    position: relative;
+
     margin: 0;
 
     width: 100%;
@@ -11,10 +13,24 @@ app-header
     box-shadow: 0px 0px 5px 5px rgba(230, 232, 232, 0.5);
 }
 
+app-header h1
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
 @media screen and (max-width: 616px)
 {
     app-header{
         height: 200px;
+    }
+
+    app-header h1
+    {
+        top: 100px;
     }
 }
 
