@@ -111,6 +111,12 @@
 
         tag.switchOnDevice = function(id){
             return function(event){
+                if(tag.Devices[id].stateValue != 0)
+                {
+                    alert("Vous ne pouvez pas utiliser cette imprimante :(");
+                    return;
+                }
+
                 var callback = function(username)
                 {
                     tag.Devices[id].switchOn(username);
