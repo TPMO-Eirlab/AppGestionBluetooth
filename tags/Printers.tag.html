@@ -111,8 +111,15 @@
 
         tag.switchOnDevice = function(id){
             return function(event){
-                //TODO: gérer la connexion 
-                tag.Devices[id].switchOn("Test user");
+                var callback = function(username)
+                {
+                    tag.Devices[id].switchOn(username);
+                    App.changePage("app-printers", null);
+                };
+
+                App.changePage("app-connection", {
+                    "callback" : callback
+                });
             }
             
         };

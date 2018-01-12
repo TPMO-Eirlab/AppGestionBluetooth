@@ -4,13 +4,19 @@
         <app-connectionuserlist callback="{ setUsername }"></app-connectionuserlist>
         
         <form>
-            <input type="text" placeholder="Identifiant" name="username" ref="username">
-            <input type="password" placeholder="Code Pin" name="password" ref="password">
+            <input type="text" placeholder="Identifiant" name="username" ref="username"><br>
+            <input type="password" placeholder="Code Pin" name="password" ref="password"><br>
             <input type="button" value="Envoyer" onclick="{ login }">
         </form>
     </div>
     <script>
         var tag = this ;
+
+        tag.callback = null;
+
+        tag.on("before-mount", function(){
+            tag.callback = tag.opts.callback;
+        });
 
         tag.setUsername = function(name)
         {
@@ -26,6 +32,9 @@
             alert("Vous êtes connecté !");
 
             tag.addToUserList(username);
+
+            if(tag.callback != null)
+                tag.callback(username);
         };
 
         tag.addToUserList = function(name)
@@ -46,6 +55,17 @@
                     data = [];
                 }    
             }
+            for(var i = 0; i < data.length;)
+            {
+                if(data[i] == name)
+                {
+                    data.splice(i,1);
+                }
+                else 
+                    i++;
+            }
+
+
             data.unshift(name);
             if(data.length >= 11)
                 data.splice(10, data.length - 11);

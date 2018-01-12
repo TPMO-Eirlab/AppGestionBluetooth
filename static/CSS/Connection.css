@@ -1,0 +1,74 @@
+app-connectionuserlist
+{
+    display: block;
+    padding: 25px;
+    border: 2px solid rgba(230, 232, 232, 1);
+    border-radius: 15px;
+    padding-bottom: 0;
+}
+
+app-connectionuserlist ul 
+{
+    padding:0;
+    margin: 0;
+}
+
+app-connectionuserlist li 
+{
+    margin-bottom: 20px;
+    border: 2px solid rgb(112, 179,67);
+    border-radius: 15px;
+    list-style: none;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+div[data-is=app-connection] app-connectionuserlist
+{
+    display: inline-block;
+    vertical-align: middle;
+    width: 19%;
+    min-width: 171px;
+    margin-bottom: 20px;
+}
+
+
+div[data-is=app-connection] form 
+{
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    width: 65%;
+}
+
+div[data-is=app-connection] form>*
+{
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 718px)
+{
+    div[data-is=app-connection] app-connectionuserlist
+    {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    app-connectionuserlist li 
+    {
+        display: inline-block;
+        margin-right: 20px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    div[data-is=app-connection] form
+    {
+        width: 100%;
+    }
+    
+}
+
+
