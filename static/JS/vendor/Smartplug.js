@@ -29,6 +29,7 @@ function SmartPlug(deviceId,name,forceState,updateHandler,autoCutOff,autoCutOffD
     this.stateValue=-1; // default to not connected
 	this.updateHandler= updateHandler;
 	this.user = null;
+	//this.ui = ui;
 }
 
 SmartPlug.prototype.onError = function(e){
@@ -38,7 +39,7 @@ SmartPlug.prototype.onError = function(e){
     var plug=this;
     if (e==133)
 	ble.isConnected(this.deviceId,null,function(e){
-	    // try to reconnect...
+		// try to reconnect...
 	    console.log("we are not connected anymore... make a scan and reconnect");
 	    plug.disconnect();
 	    ble.scan([],5,function(e){if (e.id==plug.deviceId) plug.connect();},function(){}); // scan for device during 5 seconds...
@@ -57,12 +58,13 @@ SmartPlug.prototype.state = function(){
 SmartPlug.prototype.switchOn = function(user){
     if (this.connected){
 	var plug=this;
-	alert("Switching on "+plug.deviceId);
+	if(DEBUG)
+		alert("Switching on "+plug.deviceId);
 	ble.write(this.deviceId,SmartPlugData.service,SmartPlugData.order,SmartPlugData.onOrder.buffer,function(){
 		plug.stateValue=1;
 		plug.user = user;
 		plug.lastCutOffRecord = 0;
-		plug.updateHandler(plug.deviceId);
+		//plug.updateHandler.bind(plug.ui, plug.deviceId)();
 	},this.onError.bind(this));
     }
 };
@@ -73,8 +75,8 @@ SmartPlug.prototype.switchOff = function () {
 		ble.write(this.deviceId,SmartPlugData.service,SmartPlugData.order,SmartPlugData.offOrder.buffer,function(){
 			plug.stateValue=0;
 			plug.user = null;
-			//plug.lastCutOffRecord = 0;
-			plug.updateHandler(plug.deviceId);
+			plug.lastCutOffRecord = 0;
+			//plug.updateHandler.bind(plug.ui, plug.deviceId)();
 		},this.onError.bind(this));
     }
 };
@@ -132,7 +134,8 @@ SmartPlug.prototype.connect = function(successHandler){
     if (this.connected) return;
 	var plug=this;
     ble.connect(this.deviceId, function(){
-	alert("successfully connected to "+plug.deviceId);
+		if(DEBUG)
+			alert("successfully connected to "+plug.deviceId);
 	plug.connected=true;
 	successHandler(plug.deviceId);
 	// set the notification handler

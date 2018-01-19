@@ -5,7 +5,7 @@
         
         <form>
             <input type="text" placeholder="Identifiant" name="username" ref="username"><br>
-            <input type="password" placeholder="Code Pin" name="password" ref="password" onkeyup="{ onPassword }"><br>
+            <input type="number" placeholder="Code Pin" name="password" ref="password" onkeyup="{ onPassword }"><br>
             <input type="button" value="Envoyer" onclick="{ login }">
         </form>
     </div>
@@ -37,8 +37,7 @@
             var username = tag.refs.username.value;
             var password = tag.refs.password.value;
 
-            //TODO: ajouter une vrai vérification
-            alert("Vous êtes connecté !");
+            //TODO: ajouter une vraie vérification
 
             tag.addToUserList(username);
 

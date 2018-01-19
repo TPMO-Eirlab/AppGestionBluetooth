@@ -57,7 +57,7 @@ app-header a
     
 }
 
-app-header a[href="#/stats"]
+app-header a.stats
 {
     background-image: url("./../img/charts.svg");
 }

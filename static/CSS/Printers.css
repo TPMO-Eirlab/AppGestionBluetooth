@@ -12,6 +12,7 @@ app-printers, div[data-is=app-printers] div#selector
     position: absolute;
     top: 30px;
     left: 50%;
+    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
 }
 

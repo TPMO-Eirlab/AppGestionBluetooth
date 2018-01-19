@@ -13,7 +13,7 @@
 
     <div class="content">
         <h1>Appareils:</h1>
-        <div each="{ printer in connectedDevices }" if="{ onlyAvailable == false || printer.stateValue == 0}" class="{ printer : true, available : printer.stateValue == 0, unavailable : printer.stateValue == 1, hs : printer.stateValue == -1 }" onclick="{ switchOnDevice(printer.deviceId) }" id="{ printer.deviceId }">
+        <div each="{ printer in App.connectedDevices }" if="{ onlyAvailable == false || printer.stateValue == 0}" class="{ printer : true, available : printer.stateValue == 0, unavailable : printer.stateValue == 1, hs : printer.stateValue == -1 }" onclick="{ switchOnDevice(printer.deviceId) }" id="{ printer.deviceId }">
             <div class="core">
                 {printer.name}
             </div>
@@ -26,8 +26,13 @@
                     Disponible
                 </virtual>
 
-                <virtual if="{ printer.stateValue == 1 }">
-                    Utilisé par { printer.user }
+                <virtual if="{ printer.stateValue == 1 && printer.user != null}">
+                    Utilisé(e) par { printer.user }
+                </virtual>
+
+                
+                <virtual if="{ printer.stateValue == 1 && printer.user == null}">
+                    Utilisé(e) par quelqu'un
                 </virtual>
             </div>
         </div>       
@@ -36,71 +41,50 @@
     <script>
         var tag = this;
 
-        tag.connectedDevices = null;
-        tag.Devices = null;
-
         tag.onlyAvailable = false;
-
+        tag.interval = null;
 
         tag.on("before-mount", function(){
             if(DEBUG == false)
             {
                 ble.scan([],5,function(e){},function(){}); // scan for device during 5 seconds...
-                tag.connectedDevices = {};
-            }
-            else 
-            {
-                tag.connectedDevices = {
-                    
-                    "E0:E5:CF:1E:68:87" : 
-                    {
-                    "deviceId" : "E0:E5:CF:1E:68:87",
-                    "name" : "Imprimante démo 1",
-                    "stateValue" : 0,
-                    },
-                    "E0:E5:CF:1E:68:88" : 
-                    {
-                    "deviceId" : "E0:E5:CF:1E:68:87",
-                    "name" : "Imprimante démo 2",
-                    "stateValue" : 1,
-                    "user" : "Valentin"
-                    },
-                    "E0:E5:CF:1E:68:6" : 
-                    {
-                    "deviceId" : "E0:E5:CF:1E:68:87",
-                    "name" : "Imprimante démo 2",
-                    "stateValue" : -1,
-                    }
-                };
             }
             var self = tag;
-            tag.Devices = {
-                "E0:E5:CF:1E:68:87" : new SmartPlug("E0:E5:CF:1E:68:87", "Imprimante 1", false, function(id){ self.updateDevice(id); }, 10, 5)
-            };
-
-
-            tag.initConnexion();
+            tag.interval = setInterval(function()
+            {
+                self.update();
+            }, 1000);
+            if(App.connectedDevices == null)
+                tag.initConnexion();
         });
 
+        tag.on("unmount", function()
+        {
+            clearInterval(tag.interval);
+        });
 
         tag.initConnexion = function () {
-            for (var device in tag.Devices)
+            App.connectedDevices = {};
+            for (var device in App.Devices)
             {
-                device = tag.Devices[device];
+                App.showLoading();
+                device = App.Devices[device];
                 setTimeout(device.connect.bind(device, tag.addDevice), 10000);
             }
         };
 
         tag.addDevice = function(deviceid)
         {
-            tag.connectedDevices[deviceid] = tag.Devices[deviceid];
+            App.connectedDevices[deviceid] = App.Devices[deviceid];
+            App.hideLoading();
             tag.update();
         };
 
         tag.updateDevice = function (deviceId) {
-            alert(deviceId+" updated");
-            tag.update();
-            
+            /*alert(this.constructor.name);
+            if(DEBUG)
+                alert(deviceId+" updated");
+            this.update();*/
         };
 
         tag.switch = function()
@@ -111,7 +95,7 @@
 
         tag.switchOnDevice = function(id){
             return function(event){
-                if(tag.Devices[id].stateValue != 0)
+                if(App.connectedDevices[id].stateValue != 0)
                 {
                     alert("Vous ne pouvez pas utiliser cette imprimante :(");
                     return;
@@ -119,9 +103,10 @@
 
                 var callback = function(username)
                 {
-                    tag.Devices[id].switchOn(username);
+                    App.connectedDevices[id].switchOn(username);
                     App.changePage("app-printers", null);
                 };
+
 
                 App.changePage("app-connection", {
                     "callback" : callback

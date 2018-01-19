@@ -5,6 +5,12 @@ var App = {
     // Le composant actuellement monté en tant que page 
     Page : null,
 
+    LoadingCounter : 0,
+    connectedDevices : null,
+    Devices : {
+        "E0:E5:CF:1E:68:87" : new SmartPlug("E0:E5:CF:1E:68:87", "Imprimante 1", false, null, 10, 5)
+    },
+
     /**
      * Effectue une requete Ajax et retourne une promesse.
      * address : concaténé après App.Address, addresse à interroger
@@ -84,7 +90,31 @@ var App = {
         }
         App.Page = riot.mount("div#app", tag, data);
         window.scroll(0,0);
-    }
+    },
 
+
+
+    showLoading : function()
+    {
+        App.LoadingCounter++;
+        if(document.getElementById("loading") != null)
+            return;
+        var e = document.createElement("div");
+        e.id = "loading";
+        e.innerHTML = "<div></div>";
+        document.body.appendChild(e);
+    },
+
+    hideLoading : function()
+    {
+        App.LoadingCounter--;
+        if(App.LoadingCounter > 0)
+            return;
+        var e = document.getElementById("loading");
+        if(e == null)
+            return;
+        e.remove();
+        App.LoadingCounter = 0;
+}
   
 }
