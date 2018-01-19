@@ -72,6 +72,8 @@ div#loading div
     top: 50%;
     left: 50%;
 
+    opacity: 0.7;
+
     background-size: contain;
     background-position: center;
     background-image: url("./../img/ring.gif");
