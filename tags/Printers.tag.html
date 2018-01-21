@@ -71,6 +71,11 @@
                 device = App.Devices[device];
                 setTimeout(device.connect.bind(device, tag.addDevice), 10000);
             }
+            // Timeout pour effacer le chargement si une des prises ne répond pas.
+            setTimeout(function(){
+                App.LoadingCounter = 0;
+                App.hideLoading();
+            }, 60000)
         };
 
         tag.addDevice = function(deviceid)
